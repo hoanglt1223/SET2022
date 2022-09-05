@@ -11,6 +11,7 @@ Hoang Quan hi cac ban!
 Hoang Quan hello cac ban
 Duyên huỳnh
 Tan Hung hello cac ban
+Nghĩa hello
 =======
 Tan Hung hello cac ban
 Nghĩa
