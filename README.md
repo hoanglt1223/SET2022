@@ -6,5 +6,5 @@ Nghĩa hello
 <h1>Dat Du Day </h1>
 Create conflict
 Hoàng Anh 
-Đăng Hoàng
 Đặng Tiến Đạt
+Đăng.Hoàng
