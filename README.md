@@ -7,6 +7,11 @@ Nghĩa hello
 Create conflict
 Hoàng Anh 
 Hoang Quan hi cac ban!
+<<<<<<< master
 Hoang Quan hello cac ban
 Duyên huỳnh
 Tan Hung hello cac ban
+=======
+Tan Hung hello cac ban
+Nghĩa
+>>>>>>> nghia commit again
