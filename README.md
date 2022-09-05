@@ -16,9 +16,10 @@ Nghĩa hello
 Create conflict
 Hoàng Anh 
 Hoang Quan hello cac ban
->>>>>>> nghia commit again
-Nghĩa
-Tan Hung hello cac ban
-=======
-Đặng Tiến Đạt ngáo lắm
+Hoang Quan hi cac ban!
 Đăng.Hoàng
+Đặng Tiến Đạt ngáo lắm
+=======
+Tan Hung hello cac ban
+Nghĩa
+>>>>>>> nghia commit again
