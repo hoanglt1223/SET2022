@@ -16,7 +16,8 @@ Nghĩa hello
 Create conflict
 Hoàng Anh 
 Đăng Hoàng
-=======
-Tan Hung hello cac ban
-Nghĩa
+Đặng Tiến Đạt
 >>>>>>> nghia commit again
+Nghĩa
+Tan Hung hello cac ban
+=======
