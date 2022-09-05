@@ -15,7 +15,8 @@ Nghĩa hello
 <h1>Dat Du Day </h1>
 Create conflict
 Hoàng Anh 
->>>>>>> nghia commit again
-Nghĩa
-Tan Hung hello cac ban
+Đăng Hoàng
 =======
+Tan Hung hello cac ban
+Nghĩa
+>>>>>>> nghia commit again
