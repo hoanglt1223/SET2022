@@ -6,7 +6,7 @@ const { handleError } = require('./helpers')
 const routes = {
     '/sign-up': { 'POST': { controller: signUp, middlewares: [parseRequestBody] } },
     '/sign-in': { 'POST': { controller: signIn, middlewares: [parseRequestBody] } },
-    '/add-task': { 'POST': { controller: addTask, middlewares: [parseRequestBody] } },
+    '/add-task': { 'POST': { controller: addTask, middlewares: [authenticate, parseRequestBody] } },
     '/update-task': { 'POST': { controller: editTask, middlewares: [parseRequestBody] } },
     '/delete-task': { 'POST': { controller: deleteTask, middlewares: [parseRequestBody] } },
     '/get-task': { 'POST': { controller: getTasks }, middlewares: [parseRequestBody] },
@@ -49,3 +49,30 @@ function route(req) {
 }
 
 module.exports = { route }
+
+//*INFO: Explain code above
+// 1. Create a variable routes to store routes
+// 2. Create a function route
+// 3. Parse request url
+// 4. Check if route is available
+// 5. Get current route data from routes include controller 
+// and middlewares by checking request method and route path
+// 6. Check if current route data has middlewares
+// 7. Create a controller function
+// 8. Create a promise to run first middleware in the array of middlewares
+// 9. Run other middlewares in the array of middlewares
+// Middlewares use to authenticate request, parse request body, logging, etc.
+// 10. Add controller to promise chaining (last .then) when finish run all middleware
+// 11. Return promise
+
+
+// What is promise?
+// Promise is a JavaScript object for asynchronous operation.
+// State: pending -> fulfilled or rejected
+
+// Why need promise?
+// The code is executed in order from top to bottom.
+// But, JavaScript is asynchronous.
+// So, JavaScript executes code asynchronously.
+// So, we need promise to handle asynchronous operation. 
+
