@@ -4,8 +4,7 @@ const { handleError } = require('../helpers')
 
 function Repository(name, schema) {
     this.schema = schema
-    this[name] = name
-    this.find = function find(where) {
+    this.find = function find() {
         return fileSystemDataSource.readCollection(DBCollections[name])
             .then(data => {
                 if (where && Array.isArray(data) && data.length > 0) {
@@ -116,3 +115,21 @@ function Repository(name, schema) {
 }
 
 module.exports = Repository
+
+//*INFO: Explain code above
+
+
+// Explain createOne
+// 1. We have a function called createOne that takes 1 argument: newItem
+// 2. We return a promise that resolves to undefined (void function)
+// 3. We validate the newItem with the schema of the collection defined in models
+// 4. If there is an error, we reject the promise with the error
+// 5. If there is no error, we resolve the promise with the result of this.find()
+// 6. We call this.find() to get all existing items in the collection
+// 7. We validate the newItem with the existing items to make sure the newItem is unique
+// 8. If there is an error, we throw the error
+// 9. We generate the id for the newItem
+// 10. We push the newItem to the existing items
+// 11. We update the collection with the new data
+// 12. If there is an error, we log the error
+

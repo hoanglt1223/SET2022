@@ -11,7 +11,7 @@ function parseRequestBody(request) {
         .on('end', () => {
           const data = JSON.parse(chunks.length > 0 ? chunks : '{}')
           request.body = data
-          resolve()
+          resolve(data)
         })
     })
   } catch (err) {

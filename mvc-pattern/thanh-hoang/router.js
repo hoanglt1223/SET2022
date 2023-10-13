@@ -4,22 +4,42 @@ const { authenticate, parseRequestBody } = require('./middlewares')
 const { handleError } = require('./helpers')
 
 const routes = {
-    '/sign-up': { 'POST': { controller: signUp, middlewares: [parseRequestBody] } },
-    '/sign-in': { 'POST': { controller: signIn, middlewares: [parseRequestBody] } },
-    '/add-task': { 'POST': { controller: addTask, middlewares: [authenticate, parseRequestBody] } },
-    '/update-task': { 'POST': { controller: editTask, middlewares: [parseRequestBody] } },
-    '/delete-task': { 'POST': { controller: deleteTask, middlewares: [parseRequestBody] } },
-    '/get-task': { 'POST': { controller: getTasks }, middlewares: [parseRequestBody] },
-    '/ping-with-auth': {
-        'GET': {
-            controller: pingWithAuth,
-            middlewares: [authenticate]
-        }
-    }
-}
+  // endpoint: { method: { controller, middlewares } }
+  "/sign-up": { POST: { controller: signUp, middlewares: [parseRequestBody] } },
+  "/sign-in": { POST: { controller: signIn, middlewares: [parseRequestBody] } },
+  "/add-task": {
+    POST: {
+      controller: addTask,
+      middlewares: [authenticate, parseRequestBody],
+    },
+  },
+  "/update-task": {
+    POST: { controller: editTask, middlewares: [parseRequestBody] },
+  },
+  "/delete-task": {
+    POST: { controller: deleteTask, middlewares: [parseRequestBody] },
+  },
+  "/get-task": {
+    POST: { controller: getTasks },
+    middlewares: [parseRequestBody],
+  },
+  "/tasks": {
+    POST: { controller: addTask, middlewares: [parseRequestBody] },
+    GET: { controller: getTasks, middlewares: [parseRequestBody] },
+    PATCH: { controller: editTask, middlewares: [parseRequestBody] },
+    DELETE: { controller: deleteTask, middlewares: [parseRequestBody] },
+  },
+  "/ping-with-auth": {
+    GET: {
+      controller: pingWithAuth,
+      middlewares: [authenticate],
+    },
+  },
+};
 
 function route(req) {
     const parsedUrl = url.parse(req.url, true)
+    // POST fb.com/user: Create a new user { pathName: '/user', method: 'POST' }
     if (routes[parsedUrl.pathname] && routes[parsedUrl.pathname][req.method]) {
         const currentRouteData = routes[parsedUrl.pathname][req.method]
         if (currentRouteData.middlewares && currentRouteData.middlewares.length > 0) {
@@ -31,7 +51,7 @@ function route(req) {
                                 promise.then(() => middleware(req, res))
                             }
                         })
-                        // Call controller after all interceptor (middlewares)
+                    // Call controller after all interceptor (middlewares)
                     promise.then(() => currentRouteData.controller(req, res))
                     return promise
                 } catch (error) {
@@ -75,4 +95,13 @@ module.exports = { route }
 // But, JavaScript is asynchronous.
 // So, JavaScript executes code asynchronously.
 // So, we need promise to handle asynchronous operation. 
+
+// 1. Minh Thanh go to school [pending] Block
+// 2. Minh Thanh go to bathroom to wash his face at home
+// 3. Minh Thanh go to Ha Noi
+
+
+// promise pending -> fulfilled or 
+// How to use promise?
+// 1. Create a promise by using new Promise() constructor
 
