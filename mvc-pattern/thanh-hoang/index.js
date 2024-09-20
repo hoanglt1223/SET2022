@@ -20,9 +20,9 @@ server.listen(port, () => {
 // 1. Create a server with http.createServer() method
 // 2. Use router.route() to get controller
 // 3. Use controller to handle request and response
-// 4. Listen to port 8080
+// 4. Listen to port 3000
 // 5. Log a message to console to confirm server is running
-// 6. Run the code and open http://localhost:8080/ in browser to see the result
+// 6. Run the code and open http://localhost:3000/ in browser to see the result
 
 // What is nodejs?
 // Node.js is an open-source, cross-platform, back-end JavaScript runtime

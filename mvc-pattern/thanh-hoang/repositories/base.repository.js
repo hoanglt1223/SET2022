@@ -24,8 +24,10 @@ function Repository(name, schema) {
     this.filterById = function findById(id) {
         return fileSystemDataSource.readCollection(DBCollections[name])
             .then(data => {
-                const foundEntity = data.filter(entity => entity.owner == id)
-                return foundEntity
+                // TODO: Implement filter by owner id
+                // const foundEntity = data.filter(entity => entity.owner == id)
+                // return foundEntity
+                return data
             })
             .catch(err => {
                 handleError(err, 'repositories/base.repository.js', 'findById')
@@ -56,12 +58,11 @@ function Repository(name, schema) {
                     if (validationError) {
                         throw new Error(validationError)
                     }
-                    latestID = (existingItems.length > 0) ? Number(existingItems[existingItems.length - 1].id) + 1 : 0
-                    existingItems.push({
-                        id: latestID,
-                        ...newItem
-                    })
-                    return fileSystemDataSource.updateCollection(DBCollections[name], existingItems)
+                    // Generate new id from the last item's id in the collection + 1
+                    newId = (existingItems.length > 0) ? Number(existingItems[existingItems.length - 1].id) + 1 : 0
+                    const newItemWithId = { id: newId, ...newItem }
+                    existingItems.push(newItemWithId)
+                    return fileSystemDataSource.writeCollection(DBCollections[name], existingItems)
                         .catch(err => {
                             handleError(err, 'repositories/base.repository.js', 'createOne')
                         })
@@ -81,10 +82,13 @@ function Repository(name, schema) {
                         throw new Error(validationError)
                     }
                     existingItems.forEach(element => {
-                        if (element.id == newItem.id)
-                            element.taskName = newItem.taskName
+                        if (element.id == newItem.id) {
+                            // TODO: Write update all fields in newItem instead for only task's taskName
+                            // element.taskName = newItem.taskName
+                            element = { ...element, ...newItem }
+                        }
                     });
-                    return fileSystemDataSource.updateCollection(DBCollections[name], existingItems)
+                    return fileSystemDataSource.writeCollection(DBCollections[name], existingItems)
                         .catch(err => {
                             handleError(err, 'repositories/base.repository.js', 'updateOne')
                         })
@@ -92,9 +96,9 @@ function Repository(name, schema) {
             }
         })
     }
-    this.removeOne = function removeOne(newItem) {
+    this.removeOne = function removeOne(targetItem) {
         return new Promise((resolve, reject) => {
-            let validationError = validateEntityFields(this.schema, newItem)
+            let validationError = validateEntityFields(this.schema, targetItem)
             if (validationError) {
                 reject(validationError)
             } else {
@@ -103,8 +107,8 @@ function Repository(name, schema) {
                     if (validationError) {
                         throw new Error(validationError)
                     }
-                    existingItems = existingItems.filter(item => item.id != newItem.id)
-                    return fileSystemDataSource.updateCollection(DBCollections[name], existingItems)
+                    existingItems = existingItems.filter(item => item.id != targetItem.id)
+                    return fileSystemDataSource.writeCollection(DBCollections[name], existingItems)
                         .catch(err => {
                             handleError(err, 'repositories/base.repository.js', 'removeOne')
                         })

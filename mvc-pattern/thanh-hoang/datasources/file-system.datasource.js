@@ -2,6 +2,7 @@ const fs = require('fs').promises
 const { handleError } = require('../helpers')
 
 function FileSystemDataSource(databasePath = '') {
+  // Nơi lưu trữ dữ liệu, thường phải lưu ở 1 thư mục riêng
   this.databasePath = databasePath
 
   this.readCollection = function readCollection(collectionName = '') {
@@ -18,14 +19,14 @@ function FileSystemDataSource(databasePath = '') {
       })
   }
 
-  this.updateCollection = function updateCollection(collectionName = '', newData) {
+  this.writeCollection = function writeCollection(collectionName = '', newData) {
     const collectionPath = `${this.databasePath}/${collectionName.toLowerCase()}.txt`
     return fs.writeFile(collectionPath, JSON.stringify(newData)).catch(() => {
       // create database folder in case error due to database folder does not exist
       return fs.mkdir(database)
         .then(() => fs.writeFile(this.databasePath, JSON.stringify(newData)))
         .catch(err => {
-          handleError(err, 'datasources/file-system.datasource.js', 'updateCollection')
+          handleError(err, 'datasources/file-system.datasource.js', 'writeCollection')
         })
     })
   }
@@ -39,7 +40,7 @@ module.exports = FileSystemDataSource
 // 2.1. fs.readFile reads the file at collectionPath and return a promise that resolves to the data in the file
 // 2.2. We parse the data to JSON and return it
 // 2.3. If there is an error, we log the error and return an empty array
-// 3. The function updateCollection takes 2 arguments: collectionName and newData and return a promise that resolves to undefined using fs.writeFile
+// 3. The function writeCollection takes 2 arguments: collectionName and newData and return a promise that resolves to undefined using fs.writeFile
 // 3.1. fs.writeFile writes the file at collectionPath with the new data
 // 3.2. If there is an error, we log the error and return undefined
 // 4. We export the FileSystemDataSource function

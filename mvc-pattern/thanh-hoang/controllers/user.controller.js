@@ -1,12 +1,14 @@
 const jwt = require("jsonwebtoken");
 const { insertUser, verifyUser, handleAuthResponse } = require("./helpers");
-const { handleError } = require("../helpers");
+const { handleError, hashPassword } = require("../helpers");
+const { userRepository } = require("../repositories");
 
 function signUp(request, response) {
   const user = request.body;
-  const { username, password } = user;
+  const { username, password } = request.body;
 
   const hashedPassword = password ? hashPassword(password) : undefined;
+  // Chuẩn bị sẵn data để lưu
   const newUser = {
     username: username,
     password: hashedPassword,
@@ -28,7 +30,7 @@ function signUp(request, response) {
     .createOne(newUser)
     .then((insertedUser) => {
       console.log("Log: signUp -> insertedUser", insertedUser);
-      response.statusCode = 201;
+      response.statusCode = 201; // Created
       response.setHeader("Content-Type", "application/json");
       response.end("Sign up successfully.", insertedUser);
     })

@@ -35,6 +35,11 @@ const routes = {
       middlewares: [authenticate],
     },
   },
+  "/ping": {
+    GET: {
+      controller: pingWithAuth,
+    },
+  },
 };
 
 function route(req) {
@@ -74,7 +79,7 @@ module.exports = { route }
 // 1. Create a variable routes to store routes
 // 2. Create a function route
 // 3. Parse request url
-// 4. Check if route is available
+// 4. Check if route is available => if no => 404
 // 5. Get current route data from routes include controller 
 // and middlewares by checking request method and route path
 // 6. Check if current route data has middlewares

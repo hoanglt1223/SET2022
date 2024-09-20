@@ -1,16 +1,20 @@
+const { password } = require("../models/user")
+
 function validateEntityFields(schema, entity) {
     let validationError = ''
-    Object.keys(schema).every(field => {
-        if (field === 'id') {
+    Object.keys(schema).every(fieldName => {
+        const field = schema[fieldName]
+        const newItemValue = entity[fieldName]
+        if (fieldName === 'id') {
             return true
         }
-        if (schema[field].required && entity[field] === undefined) {
-            validationError = `${field} is required`
+        if (field.required && newItemValue === undefined) {
+            validationError = `${fieldName} is required`
             return false
         }
 
-        if (schema[field].type !== typeof entity[field]) {
-            validationError = `Invalid type of field ${field}`
+        if (field.type !== typeof newItemValue) {
+            validationError = `Invalid type of fieldName ${fieldName}`
             return false
         }
         return true
