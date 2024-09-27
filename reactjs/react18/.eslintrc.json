@@ -1,0 +1,100 @@
+{
+  "extends": ["react-app", "react-app/jest"],
+  "plugins": ["react", "@typescript-eslint", "unused-imports", "react-hooks", "import", "prettier"],
+  "rules": {
+    "no-magic-numbers": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "array-callback-return": "error",
+    "consistent-return": "error",
+    "no-else-return": ["error", { "allowElseIf": false }],
+    "no-return-assign": ["error", "always"],
+    "no-shadow": "off",
+    "camelcase": "off",
+    "eqeqeq": "error",
+    "no-floating-decimal": "error",
+    "no-multi-spaces": "error",
+    "no-return-await": "error",
+    "no-self-compare": "error",
+    "no-throw-literal": "error",
+    "no-useless-return": "error",
+    "max-lines": ["error", 250],
+    "no-undef": "off",
+    "react/react-in-jsx-scope": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": "off",
+    "unused-imports/no-unused-imports-ts": "error",
+    "unused-imports/no-unused-vars-ts": [
+      "warn",
+      { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+    ],
+    "import/order": [
+      "warn",
+      {
+        "groups": ["builtin", "external", "internal", ["parent", "sibling"], "index", "object"],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            //react at top
+            "position": "before"
+          },
+          {
+            "pattern": "components/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "interfaces/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "pages/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "API/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "API", //index file in API
+            "group": "internal"
+          },
+          {
+            "pattern": "utils/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "stores/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "constants/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "routes/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "routes",
+            "group": "internal"
+          },
+          {
+            "pattern": "./*.scss", //scss must at bottom
+            "group": "sibling",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["react"],
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ]
+  }
+}
