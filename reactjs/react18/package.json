@@ -1,0 +1,59 @@
+{
+  "name": "udt-core",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "axios": "0.28.0",
+    "mobx": "^6.13.1",
+    "mobx-react": "^9.1.1",
+    "postcss-normalize": "^10.0.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2",
+    "react-scripts": "^5.0.1",
+    "typescript": "^5.6.2",
+    "web-vitals": "^2.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "eslint": "eslint \"*/**/*.{js,ts,tsx}\"",
+    "eslint:fix": "eslint --fix \"*/**/*.{js,ts,tsx}\"",
+    "eslint:ci": "eslint \"*/**/*.{js,ts,tsx}\" --quiet",
+    "prettier:fix": "prettier --write .",
+    "prettier:ci": "prettier --check .",
+    "lint:fix": "yarn eslint:fix && yarn prettier:fix",
+    "preversion": "yarn config set version-tag-prefix \"release-v\"",
+    "postversion": "git push --tags && git push && echo \"Successfully released version $npm_package_version!\""
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.15",
+    "@types/node": "^22.5.5",
+    "@types/react-dom": "^18.3.0",
+    "@types/react-router-dom": "^5.1.9",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-unused-imports": "^1.1.4",
+    "prettier": "^2.4.1"
+  },
+  "packageManager": "yarn@4.5.0+sha512.837566d24eec14ec0f5f1411adb544e892b3454255e61fdef8fd05f3429480102806bac7446bc9daff3896b01ae4b62d00096c7e989f1596f2af10b927532f39"
+}

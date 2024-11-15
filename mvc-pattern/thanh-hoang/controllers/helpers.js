@@ -3,13 +3,12 @@ const {
     userRepository,
     taskRepository
 } = require('../repositories')
-const { taskModel } = require('../models')
 
 function insertUser(user) {
-    const password = user.password ? hashPassword(user.password) : undefined
+    const hashedPassword = user.password ? hashPassword(user.password) : undefined
     const newUser = {
         username: user.username,
-        password
+        password: hashedPassword
     }
     return userRepository.createOne(newUser)
 }

@@ -27,3 +27,19 @@ function authenticate(req, res) {
 }
 
 module.exports = authenticate
+
+//*INFO: Explain code above
+// 1. Create a function authenticate
+// 2. Use try catch to handle error
+// 3. Check if request has authorization header
+// 4. Get token from authorization header
+// 5. Verify token
+// 6. Get userId from decoded token
+// 7. Find user by userId in database through userRepository
+// 8. If user is not found, throw an error
+// 9. Return a promise
+// 10. If error is caught, handle error
+// 11. If error message is not available, handle error
+// 12. Set error message
+// 13. Set status code to 401
+// 14. End response with error message
