@@ -5,7 +5,7 @@ dotenv.config({ path: path.join(__dirname, '.env') })
 
 axios
   .get(process.env.FE_BASE_URL)
-  .then((res) => {
+  .then(res => {
     if (res.status === 200) {
       process.exit(0)
     } else {
@@ -45,7 +45,7 @@ function handleUnhealthyServer() {
       console.log('Webhook delivered successfully')
       process.exit(1)
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
       process.exit(1)
     })
