@@ -148,6 +148,44 @@ const HomePage = () => {
           </Link>
         </div>
 
+        <div style={{ border: '2px solid #ff9800', borderRadius: '10px', padding: '20px' }}>
+          <h3>📦 Useful Packages</h3>
+          <p>Learn about popular libraries like Lodash, Day.js, Zod, and other essential tools for React development.</p>
+          <Link
+            to={routes.usefulPackages.value}
+            style={{
+              display: 'inline-block',
+              padding: '10px 20px',
+              backgroundColor: '#ff9800',
+              color: 'white',
+              textDecoration: 'none',
+              borderRadius: '5px',
+              marginTop: '10px'
+            }}
+          >
+            Explore Packages →
+          </Link>
+        </div>
+
+        <div style={{ border: '2px solid #8e24aa', borderRadius: '10px', padding: '20px' }}>
+          <h3>🗃️ State Management</h3>
+          <p>Compare MobX, Redux, and Zustand with interactive examples. Learn when to use each solution.</p>
+          <Link
+            to={routes.stateManagement.value}
+            style={{
+              display: 'inline-block',
+              padding: '10px 20px',
+              backgroundColor: '#8e24aa',
+              color: 'white',
+              textDecoration: 'none',
+              borderRadius: '5px',
+              marginTop: '10px'
+            }}
+          >
+            Compare State Management →
+          </Link>
+        </div>
+
         <div style={{ border: '3px solid #2e7d32', borderRadius: '10px', padding: '20px', gridColumn: 'span 2' }}>
           <h3>📝 Todo App Practice</h3>
           <p>
@@ -193,6 +231,12 @@ const HomePage = () => {
           </li>
           <li>
             <strong>Build Custom Hooks</strong> - Create reusable logic
+          </li>
+          <li>
+            <strong>Explore React 18 Features</strong> - Learn the latest React capabilities
+          </li>
+          <li>
+            <strong>Discover Useful Packages</strong> - Learn essential libraries and tools
           </li>
           <li>
             <strong>Practice with Todo App</strong> - Apply everything you've learned!

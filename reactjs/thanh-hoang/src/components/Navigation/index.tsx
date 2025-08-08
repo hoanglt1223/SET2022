@@ -32,6 +32,12 @@ const Navigation = () => {
           <Link to={routes.react18Features.value}>🚀 React 18 Features</Link>
         </li>
         <li>
+          <Link to={routes.usefulPackages.value}>📦 Useful Packages</Link>
+        </li>
+        <li>
+          <Link to={routes.stateManagement.value}>🗃️ State Management</Link>
+        </li>
+        <li>
           <Link to={routes.todoApp.value}>📝 Todo App (Practice)</Link>
         </li>
       </ul>

@@ -6,6 +6,8 @@ import ComparisonPage from 'pages/ComparisonPage'
 import PitfallsPage from 'pages/PitfallsPage'
 import CustomHooksPage from 'pages/CustomHooksPage'
 import React18FeaturesPage from 'pages/React18FeaturesPage'
+import UsefulPackagesPage from 'pages/UsefulPackagesPage'
+import StateManagementPage from 'pages/StateManagementPage'
 import TodoApp from 'pages/TodoApp'
 import HomePage from '../pages/HomePage'
 import Navigation from '../components/Navigation'
@@ -24,6 +26,8 @@ const Router = () => {
         <Route path={routes.pitfalls.value} element={<PitfallsPage />} />
         <Route path={routes.customHooks.value} element={<CustomHooksPage />} />
         <Route path={routes.react18Features.value} element={<React18FeaturesPage />} />
+        <Route path={routes.usefulPackages.value} element={<UsefulPackagesPage />} />
+        <Route path={routes.stateManagement.value} element={<StateManagementPage />} />
         <Route path={routes.todoApp.value} element={<TodoApp />} />
       </Routes>
     </>

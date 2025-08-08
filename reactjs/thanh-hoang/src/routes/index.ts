@@ -23,6 +23,12 @@ const routes = {
   react18Features: {
     value: '/react18-features'
   },
+  usefulPackages: {
+    value: '/useful-packages'
+  },
+  stateManagement: {
+    value: '/state-management'
+  },
   todoApp: {
     value: '/todo-app'
   },
