@@ -41,4 +41,5 @@ export interface IServerError {
 
 export interface IRequestHeader {
   Authorization?: string
+  [key: string]: string | undefined
 }

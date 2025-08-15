@@ -12,8 +12,8 @@
     "eslint:ci": "eslint \"*/**/*.{js,ts,tsx}\" --quiet",
     "prettier:fix": "prettier --write .",
     "prettier:ci": "prettier --check .",
-    "lint:fix": "yarn eslint:fix && yarn prettier:fix",
-    "preversion": "yarn config set version-tag-prefix \"release-v\"",
+    "lint:fix": "pnpm eslint:fix && pnpm prettier:fix",
+    "preversion": "pnpm config set version-tag-prefix \"release-v\"",
     "postversion": "git push --tags && git push && echo \"Successfully released version $npm_package_version!\""
   },
   "dependencies": {
@@ -33,7 +33,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.5.1",
     "@types/jest": "^29.5.8",
-    "@types/node": "^20.9.0",
+    "@types/node": "^22.0.0",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@types/react-router-dom": "^5.3.3",
@@ -41,8 +41,11 @@
     "eslint-plugin-unused-imports": "^3.0.0",
     "prettier": "^3.1.0"
   },
-  "packageManager": "yarn@1.22.22",
-
+  "packageManager": "pnpm@10.14.0",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=10.0.0"
+  },
   "browserslist": {
     "production": [
       ">0.2%",

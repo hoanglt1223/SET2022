@@ -1,5 +1,5 @@
 # Check out https://hub.docker.com/_/node to select a new base image
-FROM node:12-alpine
+FROM node:22-alpine
 
 # Install node compile native
 # RUN apk add g++ make python
@@ -8,17 +8,20 @@ RUN mkdir -p /home/app
 
 WORKDIR /home/app
 
-COPY package.json .
-COPY yarn.lock .
+# Enable pnpm
+RUN corepack enable
 
-RUN yarn install --frozen-lockfile
+COPY package.json .
+COPY pnpm-lock.yaml .
+
+RUN pnpm install --frozen-lockfile
 
 # Bundle app source code
 COPY . .
 
-RUN yarn build
+RUN pnpm build
 
-RUN yarn global add serve
+RUN pnpm add -g serve
 
 # Bind to all network interfaces so that it can be mapped to the host OS
 ENV HOST=0.0.0.0
