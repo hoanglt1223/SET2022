@@ -61,7 +61,39 @@ const UseEffectPage = () => {
 
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-      <h1>useEffect Hook Examples</h1>
+      <h1>⚡ useEffect Hook Examples</h1>
+
+      {/* Visual useEffect Patterns */}
+      <div style={{ backgroundColor: '#f8f9fa', padding: '20px', borderRadius: '10px', marginBottom: '30px' }}>
+        <h2>⚡ useEffect Patterns Overview</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '15px', marginTop: '20px' }}>
+          <div style={{ padding: '15px', backgroundColor: '#fff3e0', borderRadius: '8px', border: '2px solid #FF9800' }}>
+            <div style={{ fontSize: '20px', marginBottom: '10px' }}>🔄</div>
+            <h4>Every Render</h4>
+            <code style={{ fontSize: '11px', display: 'block', marginBottom: '5px' }}>useEffect(() =&gt; function)</code>
+            <small>Runs after every render</small>
+          </div>
+          <div style={{ padding: '15px', backgroundColor: '#e8f5e8', borderRadius: '8px', border: '2px solid #4CAF50' }}>
+            <div style={{ fontSize: '20px', marginBottom: '10px' }}>🚀</div>
+            <h4>Mount Only</h4>
+            <code style={{ fontSize: '11px', display: 'block', marginBottom: '5px' }}>useEffect(function, [])</code>
+            <small>Runs once on mount</small>
+          </div>
+          <div style={{ padding: '15px', backgroundColor: '#e1f5fe', borderRadius: '8px', border: '2px solid #2196F3' }}>
+            <div style={{ fontSize: '20px', marginBottom: '10px' }}>📊</div>
+            <h4>With Dependencies</h4>
+            <code style={{ fontSize: '11px', display: 'block', marginBottom: '5px' }}>useEffect(function, [deps])</code>
+            <small>Runs when dep changes</small>
+          </div>
+          <div style={{ padding: '15px', backgroundColor: '#f3e5f5', borderRadius: '8px', border: '2px solid #9C27B0' }}>
+            <div style={{ fontSize: '20px', marginBottom: '10px' }}>🧹</div>
+            <h4>With Cleanup</h4>
+            <code style={{ fontSize: '11px', display: 'block', marginBottom: '5px' }}>return cleanup function</code>
+            <small>Cleanup on unmount</small>
+          </div>
+        </div>
+      </div>
+
       <p>
         <em>Open your browser console to see the effects in action!</em>
       </p>

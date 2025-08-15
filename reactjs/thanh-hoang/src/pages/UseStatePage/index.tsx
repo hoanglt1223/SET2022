@@ -16,6 +16,40 @@ const UseStatePage = () => {
   //*INFO: return in a component is a render
   return (
     <div>
+      <h1>🎯 useState Hook - Complete Guide</h1>
+
+      {/* Visual useState Patterns */}
+      <div style={{ backgroundColor: '#f8f9fa', padding: '20px', borderRadius: '10px', marginBottom: '30px' }}>
+        <h2>🎯 useState Patterns Overview</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px', marginTop: '20px' }}>
+          <div style={{ padding: '15px', backgroundColor: '#e8f5e8', borderRadius: '8px', textAlign: 'center', border: '2px solid #4CAF50' }}>
+            <div style={{ fontSize: '24px', marginBottom: '10px' }}>🔢</div>
+            <h4>Number State</h4>
+            <code style={{ fontSize: '12px' }}>useState(0)</code>
+          </div>
+          <div style={{ padding: '15px', backgroundColor: '#fff3e0', borderRadius: '8px', textAlign: 'center', border: '2px solid #FF9800' }}>
+            <div style={{ fontSize: '24px', marginBottom: '10px' }}>📝</div>
+            <h4>String State</h4>
+            <code style={{ fontSize: '12px' }}>useState('')</code>
+          </div>
+          <div style={{ padding: '15px', backgroundColor: '#e0f7fa', borderRadius: '8px', textAlign: 'center', border: '2px solid #00BCD4' }}>
+            <div style={{ fontSize: '24px', marginBottom: '10px' }}>👤</div>
+            <h4>Object State</h4>
+            <code style={{ fontSize: '12px' }}>useState({})</code>
+          </div>
+          <div style={{ padding: '15px', backgroundColor: '#f1f8e9', borderRadius: '8px', textAlign: 'center', border: '2px solid #8BC34A' }}>
+            <div style={{ fontSize: '24px', marginBottom: '10px' }}>📋</div>
+            <h4>Array State</h4>
+            <code style={{ fontSize: '12px' }}>useState([])</code>
+          </div>
+          <div style={{ padding: '15px', backgroundColor: '#fce4ec', borderRadius: '8px', textAlign: 'center', border: '2px solid #E91E63' }}>
+            <div style={{ fontSize: '24px', marginBottom: '10px' }}>🔄</div>
+            <h4>Boolean State</h4>
+            <code style={{ fontSize: '12px' }}>useState(true)</code>
+          </div>
+        </div>
+      </div>
+
       THIS IS USE STATE PAGE
       <div>
         {/* //*INFO: It only change when component re-render */}
