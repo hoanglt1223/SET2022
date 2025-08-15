@@ -1,0 +1,259 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+
+# Development Workflow & Best Practices
+
+Guidelines for maintaining and developing this educational React project.
+
+## Package Management
+
+### pnpm Requirements
+- **Required Version**: pnpm 10.14.0+
+- **Node Version**: 22.0.0+
+- **Installation**: Use `pnpm install` (never `npm` or `yarn`)
+- **Lock File**: Commit `pnpm-lock.yaml` changes
+
+### Script Commands
+From [package.json](mdc:package.json):
+
+```bash
+# Development
+pnpm start                 # Start development server
+pnpm build                 # Build for production
+pnpm test                  # Run tests
+
+# Code Quality
+pnpm eslint               # Run ESLint
+pnpm eslint:fix           # Fix ESLint issues
+pnpm prettier:fix         # Format code with Prettier
+pnpm lint:fix             # Run both ESLint and Prettier fixes
+
+# Versioning
+pnpm preversion           # Set version tag prefix
+pnpm postversion          # Push tags and commits
+```
+
+## Code Quality Standards
+
+### ESLint Configuration
+- **Quiet Mode**: Use `pnpm eslint:ci` for CI/CD
+- **Auto-fix**: Use `pnpm eslint:fix` during development
+- **File Patterns**: `"*/**/*.{js,ts,tsx}"`
+- **Plugins**: prettier, unused-imports
+
+### Prettier Standards
+- **Check**: `pnpm prettier:ci` for CI/CD
+- **Format**: `pnpm prettier:fix` for development
+- **Target**: All files (`.`)
+
+### Combined Workflow
+```bash
+# Recommended before committing
+pnpm lint:fix
+```
+
+## File Structure Guidelines
+
+### Educational Content
+- **Pages**: Each concept gets its own page in `src/pages/`
+- **Examples**: Include comprehensive examples with explanations
+- **Console Logging**: Use for educational demonstration
+- **Comments**: Extensive comments explaining concepts
+
+### Component Organization
+```
+src/pages/ConceptPage/
+├── index.tsx              # Main page component
+├── examples/              # Sub-examples if needed
+└── README.md             # Optional: concept explanation
+```
+
+### Naming Conventions
+- **Components**: PascalCase directories with `index.tsx`
+- **Utilities**: camelCase files
+- **Constants**: SCREAMING_SNAKE_CASE
+- **Types**: Prefix interfaces with `I`
+
+## Development Workflow
+
+### Before Starting Development
+1. **Check Node/pnpm versions**:
+   ```bash
+   node --version    # Should be 22.0.0+
+   pnpm --version    # Should be 10.14.0+
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   pnpm install
+   ```
+
+3. **Start development server**:
+   ```bash
+   pnpm start
+   ```
+
+### During Development
+1. **Follow TypeScript strict mode** - no `any` types
+2. **Use absolute imports** from `src/`
+3. **Add educational comments** and console logs
+4. **Test in browser console** for educational features
+5. **Run linting frequently**: `pnpm lint:fix`
+
+### Before Committing
+1. **Run code quality checks**:
+   ```bash
+   pnpm lint:fix
+   pnpm test
+   ```
+
+2. **Check build**:
+   ```bash
+   pnpm build
+   ```
+
+3. **Verify educational features** work in browser
+
+### Educational Development Standards
+
+#### Console Logging
+- Use descriptive emojis and labels
+- Show lifecycle method execution order
+- Demonstrate state changes clearly
+
+```typescript
+console.log('🏗️ 1. CONSTRUCTOR: Component instance created')
+console.log('🚀 3. componentDidMount: Component mounted to DOM')
+```
+
+#### Interactive Examples
+- Include visual feedback for user interactions
+- Color-code different concepts consistently
+- Provide clear instructions and explanations
+
+#### Documentation in Code
+```typescript
+// *INFO: This method will update the state and trigger the render method again
+changeState() {
+  this.setState({
+    index: this.state.index + 1,
+    updateCount: this.state.updateCount + 1
+  })
+}
+```
+
+## Git Workflow
+
+### Branch Strategy
+- **Main Branch**: `master` (current)
+- **Feature Branches**: `feature/concept-name`
+- **Educational Updates**: `educational/update-description`
+
+### Commit Message Format
+```
+feat: add useState examples with object state
+docs: update lifecycle method explanations
+fix: correct useEffect dependency array
+educational: improve visual feedback for hooks
+```
+
+### Version Management
+- Use semantic versioning
+- Tag format: `release-v1.0.0`
+- Auto-push tags with `pnpm postversion`
+
+## Testing Strategy
+
+### Unit Testing
+- Test educational components for rendering
+- Verify interactive examples work correctly
+- Test custom hooks in isolation
+
+### Educational Testing
+- Verify console logs appear as expected
+- Test all interactive examples
+- Ensure visual feedback works properly
+
+### Browser Testing
+- Test in Chrome, Firefox, Safari
+- Verify responsive design
+- Check console output for educational features
+
+## Performance Considerations
+
+### Educational vs Production
+- **Educational**: Prioritize clarity over performance
+- **Inline Styles**: Acceptable for educational clarity
+- **Console Logs**: Keep for educational value
+- **File Size**: Less critical than understanding
+
+### Optimization Guidelines
+- Use `useCallback` and `useMemo` appropriately
+- Avoid unnecessary re-renders
+- Keep component size reasonable (<500 lines)
+- Split large educational pages if needed
+
+## Docker Development
+
+### Container Setup
+From [Dockerfile](mdc:Dockerfile):
+- Node.js environment
+- pnpm package manager
+- Multi-stage build for production
+
+### Health Check
+Health check endpoint in [healthcheck.js](mdc:healthcheck.js)
+
+## CI/CD Integration
+
+### Linting in CI
+```bash
+pnpm eslint:ci    # Quiet mode for CI
+pnpm prettier:ci  # Check formatting
+```
+
+### Build Verification
+```bash
+pnpm build        # Verify production build
+pnpm test         # Run test suite
+```
+
+## Educational Content Guidelines
+
+### New Concept Pages
+1. **Clear Introduction**: Explain what the concept is
+2. **Visual Examples**: Use color-coding and clear styling
+3. **Interactive Elements**: Let users experiment
+4. **Console Demonstrations**: Show execution flow
+5. **Best Practices Section**: Include do's and don'ts
+6. **Comparison with Alternatives**: Show different approaches
+
+### Code Examples
+- **Complete Examples**: Show full component implementations
+- **Progressive Complexity**: Start simple, build up
+- **Real-world Context**: Explain when to use each pattern
+- **Common Pitfalls**: Show what to avoid
+
+### Visual Design
+- **Consistent Color Scheme**: Per the styling rules
+- **Clear Typography**: Readable fonts and sizes
+- **Responsive Layout**: Works on mobile and desktop
+- **Accessibility**: Proper contrast and ARIA labels
+
+## Troubleshooting
+
+### Common Issues
+1. **Node Version**: Ensure Node 22.0.0+
+2. **pnpm Version**: Ensure pnpm 10.14.0+
+3. **TypeScript Errors**: Run with strict mode
+4. **Styling Issues**: Check inline style objects
+5. **Console Logs**: Verify browser console is open
+
+### Development Tips
+- Use React Developer Tools for debugging
+- Keep browser console open to see educational logs
+- Test lifecycle methods by triggering state changes
+- Verify hook dependency arrays for useEffect

@@ -1,0 +1,141 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+
+# React Components & Hooks Patterns
+
+This project demonstrates both modern React hooks and legacy class component patterns for educational purposes.
+
+## Component Types & Patterns
+
+### Functional Components (Preferred)
+- **Default**: Use functional components with hooks for all new components
+- **File Structure**: PascalCase directory with `index.tsx`
+- **Export**: Default export for components
+
+```typescript
+const ComponentName = () => {
+  return <div>Component content</div>
+}
+
+export default ComponentName
+```
+
+### Class Components (Educational/Legacy)
+- **Usage**: Used in [src/pages/LifeCyclePage/index.js](mdc:src/pages/LifeCyclePage/index.js) for lifecycle method demonstration
+- **Pattern**: Extends `React.Component` with comprehensive lifecycle methods
+
+## Hook Patterns & Best Practices
+
+### useState Patterns
+Examples in [src/pages/UseStatePage/index.tsx](mdc:src/pages/UseStatePage/index.tsx):
+- **Primitive State**: `useState(0)`, `useState('')`, `useState(false)`
+- **Object State**: Use spread operator for updates: `setState(prev => ({...prev, key: value}))`
+- **Array State**: Use spread or methods like `filter`, `map` for immutable updates
+- **Functional Updates**: Use `setState(prev => prev + 1)` for state dependent on previous value
+
+### useEffect Patterns
+Examples in [src/pages/UseEffectPage/index.tsx](mdc:src/pages/UseEffectPage/index.tsx):
+- **Mount Only**: `useEffect(() => {}, [])` - equivalent to `componentDidMount`
+- **Every Render**: `useEffect(() => {})` - runs after every render
+- **Conditional**: `useEffect(() => {}, [dependency])` - runs when dependency changes
+- **Cleanup**: Return function for cleanup - equivalent to `componentWillUnmount`
+
+### Custom Hooks
+Examples in [src/pages/CustomHooksPage/index.tsx](mdc:src/pages/CustomHooksPage/index.tsx):
+- **Naming**: Always start with "use" prefix
+- **Return Values**: Use objects for complex state, arrays for simple values
+- **Reusability**: Extract common stateful logic into custom hooks
+- **Composition**: Custom hooks can use other hooks
+
+```typescript
+const useCounter = (initialValue: number = 0) => {
+  const [count, setCount] = useState(initialValue)
+
+  const increment = useCallback(() => setCount(prev => prev + 1), [])
+  const decrement = useCallback(() => setCount(prev => prev - 1), [])
+  const reset = useCallback(() => setCount(initialValue), [initialValue])
+
+  return { count, increment, decrement, reset }
+}
+```
+
+## Component Structure Standards
+
+### Page Components
+Located in `src/pages/`:
+- Each page in its own directory with `index.tsx` or `index.js`
+- Educational components include comprehensive examples and explanations
+- Inline styles used for educational clarity (not recommended for production)
+
+### Reusable Components
+Located in `src/components/`:
+- **Navigation**: Main app navigation in [src/components/Navigation/index.tsx](mdc:src/components/Navigation/index.tsx)
+- **ErrorBoundary**: Error handling component
+
+## State Management Patterns
+
+### Local State (useState)
+- Use for component-specific state
+- Prefer multiple `useState` calls over single complex state object
+
+### MobX Integration
+Example in [src/pages/StateManagementPage/index.tsx](mdc:src/pages/StateManagementPage/index.tsx):
+- Class-based stores with decorators
+- Observable state with `makeObservable`
+- Actions for state mutations
+
+## Performance Optimization
+
+### useCallback & useMemo
+- Use `useCallback` for functions passed to child components
+- Use `useMemo` for expensive calculations
+- Include all dependencies in dependency arrays
+
+### Component Optimization
+- Use `React.memo` for pure functional components
+- Avoid inline object/function creation in render
+
+## Event Handling Patterns
+
+### Modern (Hooks)
+```typescript
+const handleClick = useCallback(() => {
+  // Handle click
+}, [])
+
+// In JSX
+<button onClick={handleClick}>Click me</button>
+```
+
+### Class Components
+```typescript
+// Arrow function for auto-binding
+handleClick = () => {
+  // Handle click
+}
+
+// Or bind in constructor/JSX
+onClick={this.handleClick.bind(this)}
+```
+
+## Educational Demonstrat ion Features
+
+### Console Logging
+- Lifecycle methods log to console for educational purposes
+- Hook effects include console.log statements to show execution order
+
+### Visual Examples
+- Each concept includes visual examples with styled containers
+- Color-coded sections for different patterns
+- Interactive elements to demonstrate state changes
+
+## Common Patterns to Follow
+
+1. **Component Naming**: PascalCase for components, camelCase for functions
+2. **Props Interface**: Define interfaces for component props
+3. **Default Props**: Use default parameters in function signatures
+4. **Error Handling**: Use Error Boundaries for component-level error handling
+5. **Accessibility**: Include appropriate ARIA attributes and semantic HTML

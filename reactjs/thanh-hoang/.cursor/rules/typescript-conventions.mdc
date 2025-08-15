@@ -1,0 +1,274 @@
+---
+description:
+globs: *.ts,*.tsx
+alwaysApply: false
+---
+
+# TypeScript Conventions & Standards
+
+This project uses TypeScript 5.3.2 with strict mode enabled. Follow these conventions for consistent type safety.
+
+## TypeScript Configuration
+Based on [tsconfig.json](mdc:tsconfig.json):
+- **Strict Mode**: Enabled for maximum type safety
+- **Target**: ES5 for broad compatibility
+- **Module**: ESNext with Node resolution
+- **JSX**: react-jsx (automatic runtime)
+- **Base URL**: `src` for absolute imports
+- **Experimental Decorators**: Enabled for MobX compatibility
+
+## Interface & Type Definitions
+
+### Interface Naming
+Prefix interfaces with `I` as seen in [src/interfaces/authentication/index.ts](mdc:src/interfaces/authentication/index.ts):
+
+```typescript
+export interface ILoginDataReq {
+  email: string
+  password: string
+}
+
+export interface IServerError {
+  statusCode: number
+  name: string
+  message: string
+  code?: string
+}
+```
+
+### Component Props Interfaces
+Define props interfaces for all components:
+
+```typescript
+interface TodoItemProps {
+  todo: Todo
+  onToggle: (id: number) => void
+  onDelete: (id: number) => void
+}
+
+const TodoItem = ({ todo, onToggle, onDelete }: TodoItemProps) => {
+  // Component implementation
+}
+```
+
+### Type Aliases for Unions
+Use type aliases for union types:
+
+```typescript
+type Filter = 'all' | 'active' | 'completed'
+type Status = 'pending' | 'loading' | 'success' | 'error'
+```
+
+## Enum Conventions
+Located in `src/constants/enum/`, use PascalCase with descriptive names:
+
+```typescript
+export enum AuthenticateParams {
+  ACCESS_TOKEN = 'accessToken'
+}
+
+export enum ErrorMessageEnum {
+  ACCOUNT_DISABLED = 'the-account-is-disabled',
+  ACCOUNT_DISABLED_PLEASE_CONTACT_ADMIN = 'the-account-is-disabled-please-contact-admin'
+}
+```
+
+## Function & Hook Typing
+
+### Event Handlers
+Type event handlers explicitly:
+
+```typescript
+const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault()
+  // Handle form submission
+}
+
+const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  setValue(event.target.value)
+}
+```
+
+### Custom Hook Returns
+Use consistent return patterns for custom hooks:
+
+```typescript
+// Object return for complex state
+const useAuth = (): {
+  user: User | null
+  login: (credentials: ILoginDataReq) => Promise<void>
+  logout: () => void
+  isLoading: boolean
+} => {
+  // Implementation
+}
+
+// Array return for simple state
+const useToggle = (initialValue = false): [boolean, () => void] => {
+  // Implementation
+}
+```
+
+### API Function Typing
+Type API functions with request/response interfaces:
+
+```typescript
+const authenticateUser = async (data: ILoginDataReq): Promise<ILoginDataRes> => {
+  const response = await api.post('/auth/login', data)
+  return response.data
+}
+```
+
+## State Management Typing
+
+### useState with TypeScript
+Explicit typing when TypeScript can't infer:
+
+```typescript
+// Inferred (preferred when possible)
+const [count, setCount] = useState(0)
+const [name, setName] = useState('')
+
+// Explicit typing when needed
+const [user, setUser] = useState<User | null>(null)
+const [items, setItems] = useState<Todo[]>([])
+```
+
+### useEffect Dependencies
+Type dependencies properly to avoid linting errors:
+
+```typescript
+useEffect(() => {
+  // Effect logic
+}, [someValue]) // TypeScript ensures someValue is properly typed
+```
+
+## Generic Patterns
+
+### Generic Interfaces
+Use generics for reusable interfaces:
+
+```typescript
+interface ApiResponse<T> {
+  data: T
+  status: number
+  message: string
+}
+
+interface SelectOption<T = string> {
+  label: string
+  value: T
+}
+```
+
+### Generic Functions
+Type generic functions properly:
+
+```typescript
+const createApiCall = <TRequest, TResponse>(
+  endpoint: string,
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE'
+) => {
+  return async (data?: TRequest): Promise<TResponse> => {
+    // Implementation
+  }
+}
+```
+
+## Utility Types Usage
+
+### Common Utility Types
+Use built-in utility types when appropriate:
+
+```typescript
+// Pick specific properties
+type UserPreview = Pick<User, 'id' | 'name' | 'email'>
+
+// Make properties optional
+type PartialUser = Partial<User>
+
+// Exclude properties
+type PublicUser = Omit<User, 'password' | 'apiKey'>
+
+// Record for key-value mappings
+type RouteConfig = Record<string, { value: string }>
+```
+
+## Error Handling Types
+
+### Error Types
+Define specific error types as seen in [src/interfaces/authentication/index.ts](mdc:src/interfaces/authentication/index.ts):
+
+```typescript
+export interface IServerError {
+  statusCode: number
+  name: string
+  message: string
+  code?: string
+}
+```
+
+### Result/Either Types
+For comprehensive error handling:
+
+```typescript
+type Result<T, E = Error> =
+  | { success: true; data: T }
+  | { success: false; error: E }
+```
+
+## Best Practices
+
+### Type Guards
+Create type guards for runtime type checking:
+
+```typescript
+const isUser = (obj: unknown): obj is User => {
+  return typeof obj === 'object' &&
+         obj !== null &&
+         'id' in obj &&
+         'email' in obj
+}
+```
+
+### Const Assertions
+Use const assertions for literal types:
+
+```typescript
+const routes = {
+  home: { value: '/' },
+  about: { value: '/about' }
+} as const
+
+type RouteKey = keyof typeof routes // 'home' | 'about'
+```
+
+### Strict Object Types
+Prefer strict object types:
+
+```typescript
+// Instead of
+const config: { [key: string]: any } = {}
+
+// Use
+const config: Record<string, string | number | boolean> = {}
+```
+
+## Import/Export Patterns
+
+### Type-Only Imports
+Use type-only imports when importing only types:
+
+```typescript
+import type { User } from 'interfaces/user'
+import type { ILoginDataReq } from 'interfaces/authentication'
+```
+
+### Re-exports
+Organize type exports through index files:
+
+```typescript
+// interfaces/index.ts
+export type { ILoginDataReq, IServerError } from './authentication'
+export type { User, UserPreferences } from './user'
+```

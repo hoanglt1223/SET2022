@@ -231,7 +231,7 @@ const ComparisonPage = () => {
       </div>
 
       <div style={{ backgroundColor: '#f3e5f5', padding: '15px', borderRadius: '8px', marginTop: '20px' }}>
-        <h3>🎓 Teaching Recommendations:</h3>
+        <h3>🎓  Recommendations:</h3>
         <ul>
           <li>
             <strong>Start with Hooks:</strong> Modern React development uses functional components

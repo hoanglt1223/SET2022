@@ -283,9 +283,9 @@ setTimeout(() => {
         </details>
       </div>
 
-      {/* Teaching Summary */}
+      {/* Summary */}
       <div style={{ backgroundColor: '#f0f8ff', padding: '20px', borderRadius: '8px', marginTop: '20px' }}>
-        <h2>🎓 React 18 Teaching Points</h2>
+        <h2>🎓 React 18 Points</h2>
         <ul>
           <li>
             <strong>useTransition:</strong> Perfect for search, filtering, or any non-urgent updates

@@ -5,7 +5,7 @@ import './Navigation.css'
 const Navigation = () => {
   return (
     <nav className="navigation">
-      <h2>React Hooks & Lifecycle Teaching Examples</h2>
+      <h2>React Hooks & Lifecycle Examples</h2>
       <ul className="nav-links">
         <li>
           <Link to={routes.home.value}>🏠 Home</Link>

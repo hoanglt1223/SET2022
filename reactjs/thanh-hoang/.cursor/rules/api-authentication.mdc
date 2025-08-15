@@ -1,0 +1,318 @@
+---
+description:
+globs: src/API/*,src/interfaces/authentication/*,src/constants/enum/auth.ts
+alwaysApply: false
+---
+
+# API & Authentication Patterns
+
+This project uses Axios for HTTP requests with JWT-based authentication. Follow these patterns for consistent API integration.
+
+## API Configuration
+Main configuration in [src/API/index.ts](mdc:src/API/index.ts):
+
+### Axios Instance
+```typescript
+export const api = axios.create({
+  baseURL: configs.apiBaseUrl
+})
+```
+
+### Authentication Headers
+```typescript
+export function auth(): IRequestHeader {
+  if (typeof window === 'undefined') {
+    return {}
+  }
+
+  const headers = { Authorization: '' }
+  const accessToken = localStorage.getItem(AuthenticateParams.ACCESS_TOKEN) || ''
+  headers.Authorization = `Bearer ${accessToken}`
+
+  return headers
+}
+```
+
+## Authentication Interfaces
+Defined in [src/interfaces/authentication/index.ts](mdc:src/interfaces/authentication/index.ts):
+
+### Request/Response Patterns
+```typescript
+// Login request/response
+export interface ILoginDataReq {
+  email: string
+  password: string
+}
+
+export interface ILoginDataRes {
+  token: string
+  isInactive: boolean
+}
+
+// Password reset patterns
+export interface IForgotPasswordRequest {
+  email: string
+  platform: string
+}
+
+export interface IResetPasswordRequest {
+  newPassword: string
+  confirmNewPassword: string
+  resetPasswordToken: string
+}
+```
+
+### Error Handling Interface
+```typescript
+export interface IServerError {
+  statusCode: number
+  name: string
+  message: string
+  code?: string
+}
+
+export interface IRequestHeader {
+  Authorization?: string
+  [key: string]: string | undefined
+}
+```
+
+## Authentication Constants
+From [src/constants/enum/auth.ts](mdc:src/constants/enum/auth.ts):
+
+```typescript
+export enum AuthenticateParams {
+  ACCESS_TOKEN = 'accessToken'
+}
+
+export enum ErrorMessageEnum {
+  ACCOUNT_DISABLED = 'the-account-is-disabled',
+  ACCOUNT_DISABLED_PLEASE_CONTACT_ADMIN = 'the-account-is-disabled-please-contact-admin'
+}
+```
+
+## Error Handling Patterns
+
+### Global Error Handler
+```typescript
+export const errorHandler = (error: IServerError): void => {
+  switch (error?.statusCode) {
+    case 401:
+      redirectLogin()
+      break
+    // Add more status codes as needed
+  }
+}
+
+function redirectLogin(): void {
+  localStorage.setItem(AuthenticateParams.ACCESS_TOKEN, '')
+  if (window) {
+    // TODO: enable it when integrate login feature
+    // window.location.href = routes.login.value
+  }
+}
+```
+
+## API Call Patterns
+
+### Basic API Calls
+```typescript
+// GET request
+const fetchUser = async (id: string): Promise<User> => {
+  const response = await api.get(`/users/${id}`, {
+    headers: auth()
+  })
+  return response.data
+}
+
+// POST request with authentication
+const createUser = async (userData: ICreateUserReq): Promise<ICreateUserRes> => {
+  try {
+    const response = await api.post('/users', userData, {
+      headers: auth()
+    })
+    return response.data
+  } catch (error) {
+    errorHandler(error.response?.data)
+    throw error
+  }
+}
+```
+
+### Authentication API Calls
+```typescript
+const loginUser = async (credentials: ILoginDataReq): Promise<ILoginDataRes> => {
+  const response = await api.post('/auth/login', credentials)
+
+  // Store token on successful login
+  if (response.data.token) {
+    localStorage.setItem(AuthenticateParams.ACCESS_TOKEN, response.data.token)
+  }
+
+  return response.data
+}
+
+const logoutUser = (): void => {
+  localStorage.removeItem(AuthenticateParams.ACCESS_TOKEN)
+  // Redirect to login page
+  window.location.href = routes.login.value
+}
+```
+
+## Request Interceptors Pattern
+
+### Add Request Interceptor
+```typescript
+api.interceptors.request.use(
+  (config) => {
+    // Add auth headers to all requests
+    const authHeaders = auth()
+    config.headers = { ...config.headers, ...authHeaders }
+    return config
+  },
+  (error) => Promise.reject(error)
+)
+```
+
+### Response Interceptor
+```typescript
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // Handle global errors
+    errorHandler(error.response?.data)
+    return Promise.reject(error)
+  }
+)
+```
+
+## Token Management
+
+### Token Storage
+- Use `localStorage` for token persistence
+- Clear token on logout or authentication errors
+- Use `AuthenticateParams.ACCESS_TOKEN` constant for consistent key naming
+
+### Token Validation
+```typescript
+const isTokenValid = (): boolean => {
+  const token = localStorage.getItem(AuthenticateParams.ACCESS_TOKEN)
+
+  if (!token) return false
+
+  try {
+    // Decode and validate JWT token
+    const decoded = jwt.decode(token)
+    return decoded && decoded.exp > Date.now() / 1000
+  } catch {
+    return false
+  }
+}
+```
+
+## API Response Patterns
+
+### Consistent Response Structure
+```typescript
+interface ApiResponse<T> {
+  data: T
+  message?: string
+  status: number
+  timestamp: string
+}
+
+interface ApiError {
+  error: IServerError
+  message: string
+  status: number
+  timestamp: string
+}
+```
+
+### Error Response Handling
+```typescript
+const handleApiError = (error: AxiosError): never => {
+  const serverError = error.response?.data as IServerError
+
+  switch (serverError?.statusCode) {
+    case 400:
+      throw new Error('Bad Request: ' + serverError.message)
+    case 401:
+      redirectLogin()
+      throw new Error('Unauthorized')
+    case 403:
+      throw new Error('Forbidden: ' + serverError.message)
+    case 404:
+      throw new Error('Not Found: ' + serverError.message)
+    case 500:
+      throw new Error('Server Error: ' + serverError.message)
+    default:
+      throw new Error('Unknown Error: ' + serverError?.message)
+  }
+}
+```
+
+## Configuration Management
+
+### API Configuration
+```typescript
+// src/configs/index.ts
+const configs = {
+  apiBaseUrl: process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001',
+  environment: process.env.NODE_ENV || 'development',
+  enableAuth: process.env.REACT_APP_ENABLE_AUTH === 'true'
+}
+
+export default configs
+```
+
+## Security Best Practices
+
+### Token Security
+- Never log tokens in console or store in insecure locations
+- Use HTTPS for all API communications
+- Implement token refresh mechanism for long-lived sessions
+- Clear tokens on browser close for sensitive applications
+
+### CORS Handling
+- Configure CORS properly on the backend
+- Use credentials: 'include' for cookie-based authentication
+- Validate origin headers on sensitive endpoints
+
+### Request Validation
+- Validate all input data before sending to API
+- Sanitize user inputs to prevent XSS attacks
+- Use TypeScript interfaces to ensure type safety
+
+## Integration with Components
+
+### Using API in Components
+```typescript
+const UserProfile = () => {
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        setLoading(true)
+        const userData = await fetchUser('current')
+        setUser(userData)
+      } catch (err) {
+        setError('Failed to fetch user data')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchUserData()
+  }, [])
+
+  if (loading) return <div>Loading...</div>
+  if (error) return <div>Error: {error}</div>
+  if (!user) return <div>No user data</div>
+
+  return <div>Welcome, {user.name}!</div>
+}
+```

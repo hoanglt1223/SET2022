@@ -261,7 +261,7 @@ const TodoApp = () => {
           </li>
         </ul>
         <p>
-          <strong>Teaching points:</strong> Notice how hooks work together to create a complete, performant application!
+          <strong>Notice points:</strong> Notice how hooks work together to create a complete, performant application!
         </p>
       </div>
     </div>

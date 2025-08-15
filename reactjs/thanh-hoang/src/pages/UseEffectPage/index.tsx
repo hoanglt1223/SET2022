@@ -143,7 +143,7 @@ const UseEffectPage = () => {
       </div>
 
       <div style={{ backgroundColor: '#f0f8ff', padding: '15px', borderRadius: '8px' }}>
-        <h3>🎓 Teaching Points:</h3>
+        <h3>🎓 Notice Points:</h3>
         <ul>
           <li>
             <strong>No dependencies:</strong> Runs after every render

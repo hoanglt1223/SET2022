@@ -57,7 +57,7 @@ class TodoStore {
 // Create MobX store instance
 const mobxTodoStore = new TodoStore()
 
-// Zustand Store Implementation (simulated - normally you'd install zustand)
+// Zustand Store Implementation (simulated)
 const useZustandStore = () => {
   const [state, setState] = useState({
     todos: [] as Array<{ id: number; text: string; completed: boolean }>,
@@ -271,41 +271,6 @@ const MobXTodoList = observer(() => {
           </div>
         ))}
       </div>
-
-      <details style={{ marginTop: '15px' }}>
-        <summary>MobX Code Example</summary>
-        <pre style={{ fontSize: '11px', background: '#f5f5f5', padding: '10px', overflow: 'auto' }}>
-{`// MobX Store
-class TodoStore {
-  todos = []
-  filter = 'all'
-
-  constructor() {
-    makeAutoObservable(this)
-  }
-
-  addTodo(text) {
-    this.todos.push({ id: Date.now(), text, completed: false })
-  }
-
-  toggleTodo(id) {
-    const todo = this.todos.find(t => t.id === id)
-    if (todo) todo.completed = !todo.completed
-  }
-
-  get filteredTodos() {
-    return this.filter === 'all'
-      ? this.todos
-      : this.todos.filter(t => t.completed === (this.filter === 'completed'))
-  }
-}
-
-// Component
-const TodoList = observer(() => {
-  return <div>{store.filteredTodos.map(todo => ...)}</div>
-})`}
-        </pre>
-      </details>
     </div>
   )
 })
@@ -384,44 +349,6 @@ const ZustandTodoList = () => {
           </div>
         ))}
       </div>
-
-      <details style={{ marginTop: '15px' }}>
-        <summary>Zustand Code Example</summary>
-        <pre style={{ fontSize: '11px', background: '#f5f5f5', padding: '10px', overflow: 'auto' }}>
-{`// Zustand Store
-import { create } from 'zustand'
-
-const useTodoStore = create((set, get) => ({
-  todos: [],
-  filter: 'all',
-
-  addTodo: (text) => set((state) => ({
-    todos: [...state.todos, { id: Date.now(), text, completed: false }]
-  })),
-
-  toggleTodo: (id) => set((state) => ({
-    todos: state.todos.map(todo =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    )
-  })),
-
-  setFilter: (filter) => set({ filter }),
-
-  get filteredTodos() {
-    const { todos, filter } = get()
-    return filter === 'all' ? todos : todos.filter(t =>
-      t.completed === (filter === 'completed')
-    )
-  }
-}))
-
-// Component
-const TodoList = () => {
-  const { todos, addTodo, toggleTodo } = useTodoStore()
-  return <div>...</div>
-}`}
-        </pre>
-      </details>
     </div>
   )
 }
@@ -500,51 +427,6 @@ const ReduxTodoList = () => {
           </div>
         ))}
       </div>
-
-      <details style={{ marginTop: '15px' }}>
-        <summary>Redux Code Example</summary>
-        <pre style={{ fontSize: '11px', background: '#f5f5f5', padding: '10px', overflow: 'auto' }}>
-{`// Redux Store
-const initialState = { todos: [], filter: 'all' }
-
-const todoReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case 'ADD_TODO':
-      return {
-        ...state,
-        todos: [...state.todos, {
-          id: Date.now(),
-          text: action.payload.text,
-          completed: false
-        }]
-      }
-    case 'TOGGLE_TODO':
-      return {
-        ...state,
-        todos: state.todos.map(todo =>
-          todo.id === action.payload.id
-            ? { ...todo, completed: !todo.completed }
-            : todo
-        )
-      }
-    default:
-      return state
-  }
-}
-
-// Action Creators
-const addTodo = (text) => ({ type: 'ADD_TODO', payload: { text } })
-const toggleTodo = (id) => ({ type: 'TOGGLE_TODO', payload: { id } })
-
-// Component
-const TodoList = () => {
-  const todos = useSelector(state => state.todos)
-  const dispatch = useDispatch()
-
-  return <div>...</div>
-}`}
-        </pre>
-      </details>
     </div>
   )
 }
@@ -554,9 +436,96 @@ const StateManagementPage = () => {
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
       <h1>🗃️ State Management Comparison</h1>
       <p>
-        <em>Compare different state management solutions: MobX, Zustand, and Redux!</em>
+        <em>Compare different state management solutions and understand their data flow patterns!</em>
       </p>
 
+      {/* State Management Flow Diagrams */}
+      <div style={{ marginBottom: '30px', padding: '20px', backgroundColor: '#f8f9fa', borderRadius: '10px' }}>
+        <h2>🔄 State Management Flow Patterns</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px' }}>
+
+          {/* MobX Flow */}
+          <div style={{ padding: '15px', backgroundColor: '#e8f5e8', borderRadius: '8px', border: '2px solid #4CAF50' }}>
+            <h3>📱 MobX Flow (Reactive)</h3>
+            <div style={{ fontSize: '12px', lineHeight: '1.6' }}>
+              <div style={{ margin: '10px 0', padding: '8px', backgroundColor: '#c8e6c9', borderRadius: '4px', textAlign: 'center' }}>
+                👆 User Action
+              </div>
+              <div style={{ textAlign: 'center', margin: '5px 0' }}>↓</div>
+              <div style={{ margin: '10px 0', padding: '8px', backgroundColor: '#a5d6a7', borderRadius: '4px', textAlign: 'center' }}>
+                🎯 Direct Store Mutation
+              </div>
+              <div style={{ textAlign: 'center', margin: '5px 0' }}>↓</div>
+              <div style={{ margin: '10px 0', padding: '8px', backgroundColor: '#81c784', borderRadius: '4px', textAlign: 'center' }}>
+                ⚡ Auto Observable Update
+              </div>
+              <div style={{ textAlign: 'center', margin: '5px 0' }}>↓</div>
+              <div style={{ margin: '10px 0', padding: '8px', backgroundColor: '#66bb6a', borderRadius: '4px', textAlign: 'center' }}>
+                🔄 Component Re-render
+              </div>
+            </div>
+            <div style={{ fontSize: '11px', marginTop: '10px', fontStyle: 'italic' }}>
+              ✨ <strong>Key:</strong> Automatic reactivity, minimal boilerplate, direct mutations allowed
+            </div>
+          </div>
+
+          {/* Zustand Flow */}
+          <div style={{ padding: '15px', backgroundColor: '#e3f2fd', borderRadius: '8px', border: '2px solid #2196F3' }}>
+            <h3>🏪 Zustand Flow (Functional)</h3>
+            <div style={{ fontSize: '12px', lineHeight: '1.6' }}>
+              <div style={{ margin: '10px 0', padding: '8px', backgroundColor: '#bbdefb', borderRadius: '4px', textAlign: 'center' }}>
+                👆 User Action
+              </div>
+              <div style={{ textAlign: 'center', margin: '5px 0' }}>↓</div>
+              <div style={{ margin: '10px 0', padding: '8px', backgroundColor: '#90caf9', borderRadius: '4px', textAlign: 'center' }}>
+                📞 Call Store Action
+              </div>
+              <div style={{ textAlign: 'center', margin: '5px 0' }}>↓</div>
+              <div style={{ margin: '10px 0', padding: '8px', backgroundColor: '#64b5f6', borderRadius: '4px', textAlign: 'center' }}>
+                🔧 Immutable Update (set)
+              </div>
+              <div style={{ textAlign: 'center', margin: '5px 0' }}>↓</div>
+              <div style={{ margin: '10px 0', padding: '8px', backgroundColor: '#42a5f5', borderRadius: '4px', textAlign: 'center' }}>
+                🔄 Component Re-render
+              </div>
+            </div>
+            <div style={{ fontSize: '11px', marginTop: '10px', fontStyle: 'italic' }}>
+              ✨ <strong>Key:</strong> Simple hooks API, immutable updates, minimal setup
+            </div>
+          </div>
+
+          {/* Redux Flow */}
+          <div style={{ padding: '15px', backgroundColor: '#ffebee', borderRadius: '8px', border: '2px solid #f44336' }}>
+            <h3>🔄 Redux Flow (Predictable)</h3>
+            <div style={{ fontSize: '12px', lineHeight: '1.6' }}>
+              <div style={{ margin: '10px 0', padding: '8px', backgroundColor: '#ffcdd2', borderRadius: '4px', textAlign: 'center' }}>
+                👆 User Action
+              </div>
+              <div style={{ textAlign: 'center', margin: '5px 0' }}>↓</div>
+              <div style={{ margin: '10px 0', padding: '8px', backgroundColor: '#ef9a9a', borderRadius: '4px', textAlign: 'center' }}>
+                📤 Dispatch Action
+              </div>
+              <div style={{ textAlign: 'center', margin: '5px 0' }}>↓</div>
+              <div style={{ margin: '10px 0', padding: '8px', backgroundColor: '#e57373', borderRadius: '4px', textAlign: 'center' }}>
+                ⚙️ Reducer Processing
+              </div>
+              <div style={{ textAlign: 'center', margin: '5px 0' }}>↓</div>
+              <div style={{ margin: '10px 0', padding: '8px', backgroundColor: '#ef5350', borderRadius: '4px', textAlign: 'center' }}>
+                🏪 New State Created
+              </div>
+              <div style={{ textAlign: 'center', margin: '5px 0' }}>↓</div>
+              <div style={{ margin: '10px 0', padding: '8px', backgroundColor: '#f44336', borderRadius: '4px', textAlign: 'center', color: 'white' }}>
+                🔄 Component Re-render
+              </div>
+            </div>
+            <div style={{ fontSize: '11px', marginTop: '10px', fontStyle: 'italic' }}>
+              ✨ <strong>Key:</strong> Predictable state updates, time-travel debugging, pure functions
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Interactive Examples */}
       <div style={{ display: 'grid', gap: '30px', marginBottom: '30px' }}>
         <MobXTodoList />
         <ZustandTodoList />
@@ -659,25 +628,28 @@ const StateManagementPage = () => {
           <div>
             <h3>MobX</h3>
             <pre style={{ fontSize: '12px', background: '#f5f5f5', padding: '10px' }}>
-{`npm install mobx mobx-react
-# or
-yarn add mobx mobx-react`}
+{`pnpm add mobx mobx-react
+
+# Additional DevTools
+pnpm add -D mobx-devtools-mst`}
             </pre>
           </div>
           <div>
             <h3>Zustand</h3>
             <pre style={{ fontSize: '12px', background: '#f5f5f5', padding: '10px' }}>
-{`npm install zustand
-# or
-yarn add zustand`}
+{`pnpm add zustand
+
+# With DevTools support
+pnpm add zustand immer`}
             </pre>
           </div>
           <div>
-            <h3>Redux</h3>
+            <h3>Redux Toolkit</h3>
             <pre style={{ fontSize: '12px', background: '#f5f5f5', padding: '10px' }}>
-{`npm install @reduxjs/toolkit react-redux
-# or
-yarn add @reduxjs/toolkit react-redux`}
+{`pnpm add @reduxjs/toolkit react-redux
+
+# Additional utilities
+pnpm add reselect redux-persist`}
             </pre>
           </div>
         </div>

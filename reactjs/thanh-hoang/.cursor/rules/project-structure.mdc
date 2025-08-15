@@ -1,0 +1,71 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+
+# Project Structure & Architecture
+
+This is a React 18 TypeScript educational project showcasing React Hooks and Lifecycle methods. The project follows UDT Web Frontend CSR (Client-Side Rendering) boilerplate standards.
+
+## Project Overview
+- **Purpose**: Educational React application demonstrating hooks, lifecycle methods, and best practices
+- **Stack**: React 18.3.1, TypeScript 5.3.2, React Router 6.20.1, MobX 6.12.0, Axios 1.6.2
+- **Package Manager**: pnpm 10.14.0+ (required)
+- **Node Version**: 22.0.0+ (required)
+
+## Directory Structure
+
+```
+src/
+├── API/                    # API configuration and auth utilities
+│   ├── authenticate.ts     # Authentication helpers
+│   └── index.ts           # Axios instance and error handling
+├── components/            # Reusable UI components
+│   ├── ErrorBoundary/     # Error boundary component
+│   └── Navigation/        # Main navigation component
+├── configs/               # Application configuration
+├── constants/             # Constants and enums
+│   └── enum/             # Enumerated values
+├── interfaces/            # TypeScript interface definitions
+│   ├── authentication/   # Auth-related interfaces
+│   └── user/             # User-related interfaces
+├── pages/                # Page components (route components)
+│   ├── HomePage/         # Landing page
+│   ├── UseStatePage/     # useState hook examples
+│   ├── UseEffectPage/    # useEffect hook examples
+│   ├── LifeCyclePage/    # Class lifecycle methods
+│   ├── ComparisonPage/   # Hooks vs Lifecycle comparison
+│   ├── CustomHooksPage/  # Custom hooks examples
+│   ├── TodoApp/          # Practice todo application
+│   └── ...               # Other educational pages
+├── Router/               # Main router configuration
+├── routes/               # Route constants and definitions
+└── types/                # Global type definitions
+```
+
+## Key Architectural Principles
+
+1. **Educational Focus**: Each page demonstrates specific React concepts with detailed examples and explanations
+2. **Component Organization**: Pages are feature-based, components are reusable
+3. **TypeScript First**: Strict typing throughout the application
+4. **Absolute Imports**: Uses `baseUrl: "src"` for clean import paths
+5. **Separation of Concerns**: Clear separation between API, UI, routing, and business logic
+
+## File Naming Conventions
+- Components: PascalCase directories with `index.tsx`
+- Pages: PascalCase directories with `index.tsx` or `index.js`
+- Utilities: camelCase files with descriptive names
+- Constants: camelCase files, SCREAMING_SNAKE_CASE exports
+- Types/Interfaces: Prefixed with `I` for interfaces
+
+## Import Patterns
+- Use absolute imports from `src/` (configured in tsconfig.json)
+- Group imports: React imports first, then external libraries, then internal modules
+- Use named exports for utilities, default exports for components
+
+## Entry Points
+- Main app: [src/index.tsx](mdc:src/index.tsx)
+- App component: [src/App.tsx](mdc:src/App.tsx)
+- Router: [src/Router/index.tsx](mdc:src/Router/index.tsx)
+- Routes config: [src/routes/index.ts](mdc:src/routes/index.ts)
